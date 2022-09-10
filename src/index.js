@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 
 class App extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             latitude: null,
@@ -15,23 +15,30 @@ class App extends React.Component {
     }
     obterEstacao = (data, latitude) => {
         const ano = data.getFullYear();
-        const d1 = new Date (ano, 5, 21)
-        const d2 = new Date (ano, 8, 24)
-        const d3 = new Date (ano, 11, 22)
-        const d4 = new Date (ano, 3, 21)
+        const d1 = new Date(ano, 5, 21)
+        const d2 = new Date(ano, 8, 24)
+        const d3 = new Date(ano, 11, 22)
+        const d4 = new Date(ano, 3, 21)
         const sul = latitude < 0
-        if (data >= d1 && data < d2){
+        if (data >= d1 && data < d2) {
             return sul ? 'Inverno' : 'Verão'
         }
-        if (data >= d2 && data < d3){
+        if (data >= d2 && data < d3) {
             return sul ? 'Primavera' : 'Outono'
         }
-        if (data >= d3 && data < d4){
+        if (data >= d3 && data < d4) {
             return sul ? 'Verão' : 'Inverno'
         }
         return sul ? 'Outono' : 'Primavera'
     }
-    
+
+    icones = {
+        "Primavera": "fa-seedling",
+        "Verão": "fa-umbrella-beach",
+        "Outono": "fa-tree",
+        "Inverno": "fa-snowman"
+    }
+
     render() {
         return (
             <div>
@@ -43,5 +50,5 @@ class App extends React.Component {
 
 ReactDOM.render(
     <App />,
-document.querySelector('#root')
+    document.querySelector('#root')
 )
