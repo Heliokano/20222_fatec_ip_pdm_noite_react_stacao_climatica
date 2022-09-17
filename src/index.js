@@ -6,12 +6,14 @@ class App extends React.Component {
 
     constructor(props) {
         super(props)
+        console.log('construtor')
         this.state = {
             latitude: null,
             longitude: null,
             estacao: null,
             data: null,
-            icone: null
+            icone: null,
+            mensagemDeErro: null
         }
     }
     obterEstacao = (data, latitude) => {
@@ -40,7 +42,7 @@ class App extends React.Component {
         "Inverno": "fa-snowman"
     }
 
-    obterLocalizacao(){
+    obterLocalizacao = () => {
         window.navigator.geolocation.getCurrentPosition(
             (position) => {
                 let data = new Date()
@@ -53,10 +55,28 @@ class App extends React.Component {
                     estacao: estacao,
                     icone: icone
                 })
+            },
+            (erro) => {
+                console.log(erro)
+                this.setState({ mensagemDeErro: `Tente novamente mais tarde` })
             }
         )
     }
+
+    componentDidMount() {
+        console.log('componentDidMount')
+    }
+
+    componentDidUpdate() {
+        console.log("componentDidUpdate")
+    }
+
+    componentWillUnmount() {
+        console.log("componentWillUnmount")
+    }
+
     render() {
+        console.log("render")
         return (
             <div className='container mt-2'>
                 <div className="row justify-content-center">
@@ -64,10 +84,10 @@ class App extends React.Component {
                         <div className="card">
                             <div className="card-body">
                                 {/* .d-flex.align-items-center.border.rounded.mb-2 */}
-                                <div className="d-flex align-items-center border rounded mb-2" style={{height: '6rem'}}>
+                                <div className="d-flex align-items-center border rounded mb-2" style={{ height: '6rem' }}>
                                     <i className={`fas fa-5x ${this.state.icone}`}></i>
                                     <p className="w-75 ms-3 text-center fs-1" >
-                                        {`${this.state.estacao}`}
+                                       {this.state.estacao}
                                     </p>
                                 </div>
                                 <div>
@@ -76,11 +96,26 @@ class App extends React.Component {
                                             this.state.latitude ?
                                                 `Coordenadas: ${this.state.latitude},
                                                 ${this.state.longitude}.  Data: ${this.state.data}.`
-                                            :
-                                                `Clique no botão para saber a sua estação climática`
-                                        } 
+                                                :
+                                                this.state.mensagemDeErro ?
+                                                    `${this.state.mensagemDeErro}`
+                                                    :
+                                                    'Clique no botão para saber a sua estação climática'
+                                        }
                                     </p>
                                 </div>
+                                <button onClick={this.obterLocalizacao}
+                                    className="btn btn-outline-primary w-100 mt-2">
+                                    Qual a minha estação?
+                                </button>
+
+                                <button className="btn btn-outline-danger w-100 mt-2"
+                                    onClick={()=>{
+                                        ReactDOM.unmountComponentAtNode(document.querySelector('#root'))
+                                    }}>
+                                    Perigo!!
+                                </button>
+
                             </div>
                         </div>
                     </div>
