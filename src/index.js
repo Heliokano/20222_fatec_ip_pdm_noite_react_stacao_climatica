@@ -78,7 +78,7 @@ class App extends React.Component {
                                                 ${this.state.longitude}.  Data: ${this.state.data}.`
                                             :
                                                 `Clique no botão para saber a sua estação climática`
-                                        }
+                                        } 
                                     </p>
                                 </div>
                             </div>
